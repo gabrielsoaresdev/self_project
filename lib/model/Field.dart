@@ -1,14 +1,21 @@
+import 'package:flutter/cupertino.dart';
+
 class Field {
-  int _nota;
-  int _comments;
+  String _name;
+  double _evaluation;
+  String _comments;
 
-  Field(this._nota, this._comments);
+  Field({@required String name, @required double evaluation, @required String comments}) {
+    this._name = name;
+    this._evaluation = evaluation;
+    this._comments = comments;
+  }
 
-  int getNota() => _nota;
+  String getName() => _name;
+  double getEvaluation() => _evaluation;
+  String getComments() => _comments;
 
-  int getComments() => _comments;
-
-  void setNota(int nota) => this._nota = nota;
-
-  void setComments(int comments) => this._comments = comments;
+  void setName(String name) => _name;
+  void setEvaluation(double evaluation) => this._evaluation = evaluation;
+  void setComments(String comments) => this._comments = comments;
 }
