@@ -5,10 +5,14 @@ import 'package:self_codinome/res/strings.dart';
 import 'package:self_codinome/widgets/text_input_dialog.dart';
 import 'package:self_codinome/widgets/field_item_widget.dart';
 
+/* [SphereItem] class is a Widget that seeks to display and manipulate
+ * information from a sphere. It's a [Container] divided in two parts: Header and Body.
+ * 
+ */
 class SphereItem extends StatefulWidget {
   Sphere _sphere;
 
-  SphereItem(Sphere this._sphere);
+  SphereItem(this._sphere);
 
   @override
   _SphereItemState createState() => _SphereItemState(_sphere);
@@ -17,9 +21,13 @@ class SphereItem extends StatefulWidget {
 class _SphereItemState extends State<SphereItem> {
   Sphere _sphere;
 
-  _SphereItemState(Sphere this._sphere);
+  _SphereItemState(this._sphere);
 
-  Widget getHeader(BuildContext context) => Container(
+  /* Builds the header of the [Sphere]. The header is composed by a Image 
+   * in the background, a h2 Text with the name of the sphere. It's also contains
+   * a Show/Hide Button (>/v) and a option menu [_getHeadPopupMenu].
+   */
+  Widget _getHeader(BuildContext context) => Container(
         color: Colors.purple,
         child: Padding(
           padding: EdgeInsets.all(10),
@@ -37,29 +45,20 @@ class _SphereItemState extends State<SphereItem> {
         ),
       );
 
-  Widget getBody(BuildContext context) {
+  Widget _getHeadPopupMenu() => null;
+
+  /* Creates the body widget of the Sphere. The body is composed by a list of widgets.
+   * Each widget of the list is a [FieldWidget], with the exception of the last one,
+   * wich is a button to open a Dialog and add another [Field] to the [Sphere] object.
+   */
+  Widget _getBody(BuildContext context) {
     List<Widget> fields = [];
     for (Field field in _sphere.getFields()) {
       fields.add(FieldItem(field));
     }
 
     //Creates the 'Add new Field' Button to the Sphere Body
-    fields.add(
-      FlatButton(
-        child: Text('Add new'),
-        onPressed: () {
-          showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (context) => TextInputDialog((String typedText) {
-              setState(() {
-                _sphere.getFields().add(new Field(comments: '', name: typedText, evaluation: 0));
-              });
-            }, title: Strings.ADD_FIELD_TYPE_FIELD, hint: 'Digite aqui',),
-          );
-        },
-      ),
-    );
+    fields.add(_getAddFieldButton(context));
 
     return Container(
         child: Column(
@@ -67,41 +66,36 @@ class _SphereItemState extends State<SphereItem> {
     ));
   }
 
-  Future<void> _showMyDialog(BuildContext buildContext) async {
-    return showDialog<void>(
-      context: buildContext,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('AlertDialog Title'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text('This is a demo alert dialog.'),
-                Text('Would you like to approve of this message?'),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            FlatButton(
-              child: Text('Approve'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+  FlatButton _getAddFieldButton(BuildContext context) => FlatButton(
+        child: Text('Add new'),
+        onPressed: () {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => _getAddFieldDialog(context),
+          );
+        },
+      );
+
+  TextInputDialog _getAddFieldDialog(BuildContext context) => TextInputDialog(
+        (String typedText) {
+          setState(() {
+            _sphere
+                .getFields()
+                .add(new Field(comments: '', name: typedText, evaluation: 0));
+          });
+        },
+        title: Strings.ADD_FIELD_TYPE_FIELD,
+        hint: 'Digite aqui',
+      );
 
   @override
   Widget build(BuildContext context) {
     return Card(
         child: Column(
       children: [
-        getHeader(context),
-        getBody(context),
+        _getHeader(context),
+        _getBody(context),
       ],
     ));
   }
