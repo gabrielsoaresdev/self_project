@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:self_codinome/model/field.dart';
 import 'package:self_codinome/model/sphere.dart';
 import 'package:self_codinome/res/strings.dart';
-import 'package:self_codinome/widgets/add_field_dialog.dart';
+import 'package:self_codinome/widgets/text_input_dialog.dart';
 import 'package:self_codinome/widgets/field_item_widget.dart';
 
 class SphereItem extends StatefulWidget {

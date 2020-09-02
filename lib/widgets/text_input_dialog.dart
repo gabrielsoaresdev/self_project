@@ -27,20 +27,30 @@ class _TextInputDialogState extends State<TextInputDialog> {
   bool ableToSave = false;
 
   _TextInputDialogState(this._save, {String title = '', String hint = ''}) {
-    controller = new TextEditingController();
+    this._title = title;
+    this._hint = hint;
 
-    _dialogTextField = new TextField(
+
+    controller = new TextEditingController();
+  }
+
+  TextField getInputTextField () => new TextField(
       autofocus: true,
       decoration: InputDecoration(labelText: _hint),
       controller: controller,
       onChanged: (value) {
-        if (controller.text.trim().isEmpty && controller.text.trim().isEmpty)
+        if (controller.text.trim().length == 0 && ableToSave) {
           setState(() {
             ableToSave = false;
           });
+        }
+        else if(controller.text.trim().length > 0 && !ableToSave) {
+          setState(() {
+            ableToSave = true;
+          });
+        }
       },
     );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +64,7 @@ class _TextInputDialogState extends State<TextInputDialog> {
 
     return AlertDialog(
       title: Text(_title),
-      content: _dialogTextField,
+      content: getInputTextField(),
       actions: [
         FlatButton(
           child: Text(Strings.CANCEL),
