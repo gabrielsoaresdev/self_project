@@ -73,8 +73,15 @@ class _SphereItemState extends State<SphereItem> {
     ));
   }
 
-  FlatButton _getAddFieldButton(BuildContext context) => FlatButton(
-        child: Text('Add new'),
+  Widget _getAddFieldButton(BuildContext context) => FlatButton(
+        padding: EdgeInsets.all(13),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.add),
+            Text(Strings.ADD_FIELD_ADD_NEW_BUTTON),
+          ],
+        ),
         onPressed: () {
           showDialog(
             context: context,

@@ -10,6 +10,7 @@ class Strings {
   static String FIELD_TYPE_FIELD_NAME = 'Digite o nome do campo:';
   static String ADD_FIELD_COMMENT_INPUT = 'Você avaliou esse campo com nota ';
   static String ADD_FIELD_COMMENT_INPUT_HINT = 'Digite aqui o seu comentário:';
+  static String ADD_FIELD_ADD_NEW_BUTTON = 'Novo campo';
   //SELF EVALUATION
 
   //SPHERE

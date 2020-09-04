@@ -9,9 +9,6 @@ class FieldItem extends StatefulWidget {
   FieldItem({@required Field field, @required Function onDeletePressed}) {
     _fieldItemState =
         new _FieldItemState(field, onDeletePressed: onDeletePressed);
-    if(onDeletePressed == null) { 
-      print("TA AQUI");
-    }
   }
 
   @override
@@ -31,7 +28,8 @@ class _FieldItemState extends State<FieldItem> {
         value: _field.getEvaluation(),
         min: 0,
         max: 10,
-        label: _field.getEvaluation().toString(),
+        divisions: 10,
+        label: _field.getEvaluation().round().toString(),
         onChanged: (double value) => {
           setState(() {
             _field.setEvaluation(value);
@@ -55,7 +53,7 @@ class _FieldItemState extends State<FieldItem> {
           _field.setComments(typedText);
         },
         title: Strings.ADD_FIELD_COMMENT_INPUT +
-            _field.getEvaluation().toString() +
+            _field.getEvaluation().round().toString() +
             '!',
         hint: Strings.ADD_FIELD_COMMENT_INPUT_HINT,
         initText: _field.getComments(),
@@ -84,8 +82,6 @@ class _FieldItemState extends State<FieldItem> {
                   (String typedText) {
                     setState(() {
                       _field.setName(typedText);
-                      print("TESTE");
-                      print(typedText);
                     });
                   },
                   title: Strings.FIELD_TYPE_FIELD_NAME,
