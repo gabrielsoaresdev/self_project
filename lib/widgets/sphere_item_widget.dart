@@ -54,7 +54,14 @@ class _SphereItemState extends State<SphereItem> {
   Widget _getBody(BuildContext context) {
     List<Widget> fields = [];
     for (Field field in _sphere.getFields()) {
-      fields.add(FieldItem(field));
+      fields.add(FieldItem(
+        field: field,
+        onDeletePressed: () {
+          setState(() {
+            _sphere.getFields().remove(field);
+          });
+        },
+      ));
     }
 
     //Creates the 'Add new Field' Button to the Sphere Body
@@ -85,8 +92,7 @@ class _SphereItemState extends State<SphereItem> {
                 .add(new Field(comments: '', name: typedText, evaluation: 0));
           });
         },
-        title: Strings.ADD_FIELD_TYPE_FIELD,
-        hint: 'Digite aqui',
+        title: Strings.FIELD_TYPE_FIELD_NAME,
       );
 
   @override

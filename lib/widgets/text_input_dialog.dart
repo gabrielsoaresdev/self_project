@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:self_codinome/model/field.dart';
 import 'package:self_codinome/res/strings.dart';
 
 
 class TextInputDialog extends StatefulWidget {
-  _TextInputDialogState _textInputDialogState;
+  final _TextInputDialogState _textInputDialogState;
 
-  TextInputDialog(Function save,
-    {String title = '', String hint = ''}) {
+  TextInputDialog(save(String typedText),
+    {String title = '', String hint = '', String initText = ''}) :
     _textInputDialogState =
-        new _TextInputDialogState(save, title: title, hint: hint);
-  }
+        new _TextInputDialogState(save, title: title, hint: hint, initText: initText);
 
   @override
   State<StatefulWidget> createState() => _textInputDialogState;
@@ -21,20 +19,20 @@ class _TextInputDialogState extends State<TextInputDialog> {
   String _hint;
   Function _save;
 
-  TextField _dialogTextField;
   TextEditingController controller;
 
   bool ableToSave = false;
 
-  _TextInputDialogState(this._save, {String title = '', String hint = ''}) {
+  _TextInputDialogState(this._save, {String title = '', String hint = '', String initText = ''}) {
     this._title = title;
     this._hint = hint;
-
+    print(title);
 
     controller = new TextEditingController();
+    controller.text = initText;
   }
 
-  TextField getInputTextField () => new TextField(
+  Widget getInputTextField () => new TextField(
       autofocus: true,
       decoration: InputDecoration(labelText: _hint),
       controller: controller,

@@ -7,8 +7,9 @@ class Strings {
   static String CANCEL = 'Cancelar';
 
   //FIELD
-  static String ADD_FIELD_TYPE_FIELD = 'Digite o nome do campo:';
-
+  static String FIELD_TYPE_FIELD_NAME = 'Digite o nome do campo:';
+  static String ADD_FIELD_COMMENT_INPUT = 'Você avaliou esse campo com nota ';
+  static String ADD_FIELD_COMMENT_INPUT_HINT = 'Digite aqui o seu comentário:';
   //SELF EVALUATION
 
   //SPHERE

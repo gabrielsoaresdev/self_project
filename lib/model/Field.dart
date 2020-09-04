@@ -15,7 +15,7 @@ class Field {
   double getEvaluation() => _evaluation;
   String getComments() => _comments;
 
-  void setName(String name) => _name;
+  void setName(String name) => _name = name;
   void setEvaluation(double evaluation) => this._evaluation = evaluation;
   void setComments(String comments) => this._comments = comments;
 }
