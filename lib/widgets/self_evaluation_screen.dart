@@ -8,6 +8,12 @@ import 'package:self_codinome/widgets/sphere_item_widget.dart';
 import 'package:self_codinome/widgets/text_input_dialog.dart';
 
 class SelfEvaluationScreen extends StatefulWidget {
+  final SelfEvaluation _selfEvaluation;
+
+  SelfEvaluationScreen(this._selfEvaluation);
+
+  SelfEvaluationScreen.newEvaluation() : _selfEvaluation = DatabaseManager().getLastSelfEvaluation();
+  
   @override
   _SelfEvaluationScreenState createState() => _SelfEvaluationScreenState();
 }
@@ -17,12 +23,16 @@ class _SelfEvaluationScreenState extends State<SelfEvaluationScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     selfEvaluation = DatabaseManager().getLastSelfEvaluation();
   }
 
-  Widget getListViewItem(int i) => SphereItem(selfEvaluation.getSpheres()[i]);
+  Widget getListViewItem(int i) => SphereItem(
+        selfEvaluation.getSpheres()[i],
+        onDeletePressed: () => setState(() {
+          selfEvaluation.getSpheres().removeAt(i);
+        }),
+      );
 
   ListView _getListView() => ListView.builder(
         itemBuilder: (BuildContext context, int position) =>
@@ -37,7 +47,7 @@ class _SelfEvaluationScreenState extends State<SelfEvaluationScreen> {
                 new Sphere(name: typedText, imageUri: '', fields: <Field>[]));
           });
         },
-        title: Strings.ADD_SPHERE_TYPE_FIELD,
+        title: Strings.ADD_SPHERE_INFO,
       );
 
   IconButton _getIconButton(BuildContext context) => IconButton(

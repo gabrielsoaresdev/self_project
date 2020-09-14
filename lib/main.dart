@@ -8,7 +8,7 @@ class SelfApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Self',
-      home: SelfEvaluationScreen(),
+      home: SelfEvaluationScreen.newEvaluation(),
     );
   }
 }

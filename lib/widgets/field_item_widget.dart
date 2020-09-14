@@ -4,15 +4,16 @@ import 'package:self_codinome/res/strings.dart';
 import 'package:self_codinome/widgets/text_input_dialog.dart';
 
 class FieldItem extends StatefulWidget {
-  _FieldItemState _fieldItemState;
- 
-  FieldItem({@required Field field, @required Function onDeletePressed}) {
-    _fieldItemState =
-        new _FieldItemState(field, onDeletePressed: onDeletePressed);
-  }
+  final Field _field;
+  final Function _onDeletePressed;
+
+  FieldItem({@required Field field, @required Function onDeletePressed})
+      : _field = field,
+        _onDeletePressed = onDeletePressed;
 
   @override
-  _FieldItemState createState() => _fieldItemState;
+  _FieldItemState createState() =>
+      new _FieldItemState(_field, onDeletePressed: _onDeletePressed);
 }
 
 enum _FieldItemMenuOptions { edit, delete }

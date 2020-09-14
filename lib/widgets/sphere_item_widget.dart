@@ -2,26 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:self_codinome/model/field.dart';
 import 'package:self_codinome/model/sphere.dart';
 import 'package:self_codinome/res/strings.dart';
+import 'package:self_codinome/widgets/edit_sphere_widget.dart';
 import 'package:self_codinome/widgets/text_input_dialog.dart';
 import 'package:self_codinome/widgets/field_item_widget.dart';
+
+enum _SphereMenuOptions { edit, delete }
 
 /* [SphereItem] class is a Widget that seeks to display and manipulate
  * information from a sphere. It's a [Container] divided in two parts: Header and Body.
  * 
  */
 class SphereItem extends StatefulWidget {
-  Sphere _sphere;
-
-  SphereItem(this._sphere);
+  final Sphere _sphere;
+  final Function _onDeletePressed;
+  SphereItem(Sphere sphere, {@required Function onDeletePressed})
+      : _sphere = sphere,
+        _onDeletePressed = onDeletePressed;
 
   @override
-  _SphereItemState createState() => _SphereItemState(_sphere);
+  _SphereItemState createState() => _SphereItemState(_sphere, _onDeletePressed);
 }
 
 class _SphereItemState extends State<SphereItem> {
   Sphere _sphere;
-
-  _SphereItemState(this._sphere);
+  Function _onDeletePressed;
+  _SphereItemState(this._sphere, this._onDeletePressed);
 
   /* Builds the header of the [Sphere]. The header is composed by a Image 
    * in the background, a h2 Text with the name of the sphere. It's also contains
@@ -40,12 +45,39 @@ class _SphereItemState extends State<SphereItem> {
                   fontSize: 30,
                 ),
               ),
+              _getHeadPopupMenu(context),
             ],
           ),
         ),
       );
 
-  Widget _getHeadPopupMenu() => null;
+  Widget _getHeadPopupMenu(BuildContext context) =>
+      PopupMenuButton<_SphereMenuOptions>(
+        onSelected: (_SphereMenuOptions result) {
+          switch (result) {
+            case _SphereMenuOptions.edit:
+              showDialog(
+                context: context,
+                builder: (context) => EditSphereDialog(sphere: _sphere),
+                barrierDismissible: true,
+              );
+              break;
+            case _SphereMenuOptions.delete:
+              _onDeletePressed();
+              break;
+          }
+        },
+        itemBuilder: (context) => <PopupMenuEntry<_SphereMenuOptions>>[
+          PopupMenuItem<_SphereMenuOptions>(
+            value: _SphereMenuOptions.edit,
+            child: Text(Strings.EDIT),
+          ),
+          PopupMenuItem<_SphereMenuOptions>(
+            value: _SphereMenuOptions.delete,
+            child: Text(Strings.DELETE),
+          ),
+        ],
+      );
 
   /* Creates the body widget of the Sphere. The body is composed by a list of widgets.
    * Each widget of the list is a [FieldWidget], with the exception of the last one,
@@ -74,7 +106,6 @@ class _SphereItemState extends State<SphereItem> {
   }
 
   Widget _getAddFieldButton(BuildContext context) => FlatButton(
-        padding: EdgeInsets.all(13),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -82,6 +113,8 @@ class _SphereItemState extends State<SphereItem> {
             Text(Strings.ADD_FIELD_ADD_NEW_BUTTON),
           ],
         ),
+        padding: EdgeInsets.all(13),
+        textColor: Theme.of(context).accentColor,
         onPressed: () {
           showDialog(
             context: context,
